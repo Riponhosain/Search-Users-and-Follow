@@ -1,0 +1,6 @@
+<root>
+    <item name='java.lang.CharSequence java.lang.String toString()'>
+        <annotation name='java.lang.Deprecated' />
+        <annotation name='org.jetbrains.annotations.NotNull' />
+    </item>
+</root>
