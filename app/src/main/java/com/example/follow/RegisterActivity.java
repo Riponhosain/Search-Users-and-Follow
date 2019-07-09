@@ -169,6 +169,7 @@ text_login.setOnClickListener(new View.OnClickListener() {
 //
 //    }
 
+
     private void register(final String username, final String fullname, final String email, final String password){
         auth.createUserWithEmailAndPassword(email,password).
                 addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {

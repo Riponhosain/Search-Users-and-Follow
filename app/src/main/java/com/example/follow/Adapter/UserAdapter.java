@@ -1,6 +1,7 @@
 package com.example.follow.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.follow.Fragment.ProfileFragment;
+import com.example.follow.MainActivity;
 import com.example.follow.Model.User;
 import com.example.follow.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,9 +40,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
    private FirebaseUser firebaseUser;
 
-   public UserAdapter(Context mcontext, List<User> muser){
+   private boolean isFragment;
+
+   public UserAdapter(Context mcontext, List<User> muser, boolean isFragment){
        this.mcontext = mcontext;
        this.musers = muser;
+
+       this.isFragment = isFragment;
    }
 
     @NonNull
@@ -75,12 +81,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = mcontext.getSharedPreferences("PREFS", MODE_PRIVATE).edit();
-                editor.putString("profileid", user.getId());
-                editor.apply();
 
-                ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
+                if (isFragment) {
+
+                    SharedPreferences.Editor editor = mcontext.getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                    editor.putString("profileid", user.getId());
+                    editor.apply();
+
+                    ((FragmentActivity) mcontext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new ProfileFragment()).commit();
+                }else {
+                    Intent intent = new Intent(mcontext, MainActivity.class);
+                    intent.putExtra("publisherid", user.getId());
+                    mcontext.startActivity(intent);
+                }
             }
         });
 
